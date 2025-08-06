@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ABKLabs.Runner</name>
+    </assembly>
+    <members>
+        <member name="M:ABKLabs.Runner.Provider.#ctor(System.String,ABKLabs.Runner.ProviderArgs,Pulumi.CustomResourceOptions)">
+             <summary>
+             Create a Provider resource with the given unique name, arguments, and options.
+             </summary>
+            
+             <param name="name">The unique name of the resource</param>
+             <param name="args">The arguments used to populate this resource's properties</param>
+             <param name="options">A bag of options that control this resource's behavior</param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ABKLabs.Runner</id>
+    <version>0.0.1-alpha.1754503170+19219d4e.dirty</version>
+    <authors>ABK Labs</authors>
+    <license type="expression">GPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/GPL-3.0-only</licenseUrl>
+    <icon>logo.png</icon>
+    <projectUrl>https://abklabs.com/</projectUrl>
+    <description>An alternative way to run scripts locally and remotely for pulumi</description>
+    <repository type="git" url="https://github.com/abklabs/pulumi-runner" commit="19219d4e1e7062f0a16c0a9e70502df9e67a5178" />
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="Pulumi" version="[3.76.1, 4.0.0)" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/bin/Debug/net6.0/ABKLabs.Runner.pdb" target="lib/net6.0/ABKLabs.Runner.pdb" />
+    <file src="/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/bin/Debug/net6.0/ABKLabs.Runner.dll" target="lib/net6.0/ABKLabs.Runner.dll" />
+    <file src="/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/bin/Debug/net6.0/ABKLabs.Runner.xml" target="lib/net6.0/ABKLabs.Runner.xml" />
+    <file src="/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/version.txt" target="content/version.txt" />
+    <file src="/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/pulumi-plugin.json" target="content/pulumi-plugin.json" />
+    <file src="/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/logo.png" target="logo.png" />
+  </files>
+</package>
