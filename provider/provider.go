@@ -15,6 +15,8 @@
 package provider
 
 import (
+	"github.com/abklabs/pulumi-runner/pkg/runner"
+
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
@@ -60,8 +62,13 @@ func Provider() p.Provider {
 			Publisher:         "ABK Labs",
 			PluginDownloadURL: "github://api.github.com/abklabs",
 		},
-		Resources: []infer.InferredResource{},
-		Functions: []infer.InferredFunction{},
+		Resources: []infer.InferredResource{
+			infer.Resource[runner.SSHDeployer](),
+		},
+		Functions: []infer.InferredFunction{
+			infer.Function[runner.LocalFile](),
+			infer.Function[runner.StringFile](),
+		},
 		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{},
 	})
 }
