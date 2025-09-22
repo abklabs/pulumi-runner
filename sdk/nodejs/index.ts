@@ -10,6 +10,15 @@ export type Provider = import("./provider").Provider;
 export const Provider: typeof import("./provider").Provider = null as any;
 utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
+
+// Export sub-modules:
+import * as runner from "./runner";
+import * as types from "./types";
+
+export {
+    runner,
+    types,
+};
 pulumi.runtime.registerResourcePackage("runner", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {

@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "ABKLabs.Runner/0.0.1-alpha.1754503170+19219d4e.dirty": {
+      "ABKLabs.Runner/0.0.1-alpha.1758582565+c28cb884": {
         "dependencies": {
           "Microsoft.SourceLink.GitHub": "1.0.0",
           "Pulumi": "3.76.1"
@@ -202,7 +202,7 @@
     }
   },
   "libraries": {
-    "ABKLabs.Runner/0.0.1-alpha.1754503170+19219d4e.dirty": {
+    "ABKLabs.Runner/0.0.1-alpha.1758582565+c28cb884": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
