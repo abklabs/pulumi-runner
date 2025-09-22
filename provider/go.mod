@@ -5,11 +5,10 @@ go 1.23.0
 toolchain go1.24.4
 
 require (
-	github.com/abklabs/svmkit/pkg v0.52.0
+	github.com/abklabs/svmkit/pkg v0.53.0
 	github.com/pulumi/pulumi-go-provider v0.24.0
 	github.com/pulumi/pulumi/pkg/v3 v3.143.0
 	github.com/pulumi/pulumi/sdk/v3 v3.153.1
-	github.com/stretchr/testify v1.11.1
 	golang.org/x/crypto v0.39.0
 )
 
@@ -32,7 +31,6 @@ require (
 	github.com/cloudflare/circl v1.6.1 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
 	github.com/cyphar/filepath-securejoin v0.4.1 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/deckarep/golang-set/v2 v2.5.0 // indirect
 	github.com/djherbis/times v1.5.0 // indirect
 	github.com/edsrzf/mmap-go v1.1.0 // indirect
@@ -89,6 +87,7 @@ require (
 	github.com/spf13/afero v1.10.0 // indirect
 	github.com/spf13/cobra v1.9.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
+	github.com/stretchr/testify v1.11.1 // indirect
 	github.com/texttheater/golang-levenshtein v1.0.1 // indirect
 	github.com/uber/jaeger-client-go v2.30.0+incompatible // indirect
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
