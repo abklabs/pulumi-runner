@@ -5,7 +5,7 @@ on:
       - v*.*.*
       - '!v*.*.*-**'
 env:
-  PROVIDER: "runner"
+  PROVIDER: "svmkit"
   # THIS GITHUB_TOKEN IS A REQUIREMENT TO BE ABLE TO WRITE TO GH RELEASES
   GITHUB_TOKEN: ${{ github.token }}
   # IF YOU NEED TO PUBLISH A NPM PACKAGE THEN ENSURE A NPM_TOKEN SECRET IS SET
@@ -36,6 +36,8 @@ jobs:
       uses: actions/checkout@v4
     - name: Unshallow clone for tags
       run: git fetch --prune --unshallow --tags --force
+    - name: Run repo setup
+      run: ./bin/setup
     - name: Install Go
       uses: actions/setup-go@v5
       with:
@@ -53,7 +55,7 @@ jobs:
       fail-fast: true
       matrix:
         goversion:
-        - 1.24.x
+        - 1.25.x
   publish_sdk:
     name: Publish SDKs
     runs-on: ubuntu-latest
@@ -64,6 +66,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Unshallow clone for tags
         run: git fetch --prune --unshallow --tags --force
+      - name: Run repo setup
+        run: ./bin/setup
       - name: Install Go
         uses: actions/setup-go@v5
         with:
@@ -129,7 +133,7 @@ jobs:
         dotnetversion:
           - 8.0.x
         goversion:
-          - 1.24.x
+          - 1.25.x
         language:
           - nodejs
           - python
