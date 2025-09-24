@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: pulumi_runner
-Version: 0.0.1a1758582565
+Version: 0.0.1
 Summary: An alternative way to run scripts locally and remotely for pulumi
 Home-page: https://abklabs.com
 License: GPL-3.0-only

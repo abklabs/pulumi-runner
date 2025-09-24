@@ -1,25 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dante/sandbox/tmp/pulumi-runner/sdk/dotnet/ABKLabs.Runner.csproj": {}
+    "/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/ABKLabs.Runner.csproj": {}
   },
   "projects": {
-    "/Users/dante/sandbox/tmp/pulumi-runner/sdk/dotnet/ABKLabs.Runner.csproj": {
-      "version": "0.0.1-alpha.1758582565+c28cb884",
+    "/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/ABKLabs.Runner.csproj": {
+      "version": "0.0.1",
       "restore": {
-        "projectUniqueName": "/Users/dante/sandbox/tmp/pulumi-runner/sdk/dotnet/ABKLabs.Runner.csproj",
+        "projectUniqueName": "/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/ABKLabs.Runner.csproj",
         "projectName": "ABKLabs.Runner",
-        "projectPath": "/Users/dante/sandbox/tmp/pulumi-runner/sdk/dotnet/ABKLabs.Runner.csproj",
-        "packagesPath": "/Users/dante/.nuget/packages/",
-        "outputPath": "/Users/dante/sandbox/tmp/pulumi-runner/sdk/dotnet/obj/",
+        "projectPath": "/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/ABKLabs.Runner.csproj",
+        "packagesPath": "/Users/alexander/.nuget/packages/",
+        "outputPath": "/Users/alexander/sandbox/abklabs/pulumi-runner/sdk/dotnet/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/dante/.nuget/NuGet/NuGet.Config"
+          "/Users/alexander/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "/opt/homebrew/Cellar/dotnet/9.0.7/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +39,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net6.0": {
@@ -80,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.303/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/9.0.7/libexec/sdk/9.0.108/RuntimeIdentifierGraph.json"
         }
       }
     }

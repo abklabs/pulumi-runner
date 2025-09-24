@@ -1,6 +1,6 @@
 {
     "name": "@svmkit/pulumi-runner",
-    "version": "v0.0.1-alpha.1758582565+c28cb884",
+    "version": "v0.0.1",
     "keywords": [
         "pulumi",
         "runner"

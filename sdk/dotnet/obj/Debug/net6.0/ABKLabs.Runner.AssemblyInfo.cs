@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("An alternative way to run scripts locally and remotely for pulumi")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.0.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1-alpha.1758582565+c28cb884.c28cb884e5654b63bcf16b9d17af1f1a8cd0558e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+fbceb0ac965fdd39f255843c93fd5c1d6a194731")]
 [assembly: System.Reflection.AssemblyProductAttribute("ABKLabs.Runner")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ABKLabs.Runner")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.0.1.0")]
