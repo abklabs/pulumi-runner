@@ -1,5 +1,0 @@
-{
-  "resource": true,
-  "name": "runner",
-  "server": "github://api.github.com/abklabs"
-}
