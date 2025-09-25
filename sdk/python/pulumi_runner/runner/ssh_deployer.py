@@ -14,6 +14,7 @@ else:
     from typing_extensions import NotRequired, TypedDict, TypeAlias
 from .. import _utilities
 from . import outputs
+from .. import deb as _deb
 from .. import ssh as _ssh
 from ._inputs import *
 
@@ -23,6 +24,7 @@ __all__ = ['SSHDeployerArgs', 'SSHDeployer']
 class SSHDeployerArgs:
     def __init__(__self__, *,
                  connection: pulumi.Input['_ssh.ConnectionArgs'],
+                 config: Optional[pulumi.Input['ConfigArgs']] = None,
                  create: Optional[pulumi.Input['CommandDefinitionArgs']] = None,
                  delete: Optional[pulumi.Input['CommandDefinitionArgs']] = None,
                  environment: Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
@@ -32,6 +34,8 @@ class SSHDeployerArgs:
         The set of arguments for constructing a SSHDeployer resource.
         """
         pulumi.set(__self__, "connection", connection)
+        if config is not None:
+            pulumi.set(__self__, "config", config)
         if create is not None:
             pulumi.set(__self__, "create", create)
         if delete is not None:
@@ -51,6 +55,15 @@ class SSHDeployerArgs:
     @connection.setter
     def connection(self, value: pulumi.Input['_ssh.ConnectionArgs']):
         pulumi.set(self, "connection", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def config(self) -> Optional[pulumi.Input['ConfigArgs']]:
+        return pulumi.get(self, "config")
+
+    @config.setter
+    def config(self, value: Optional[pulumi.Input['ConfigArgs']]):
+        pulumi.set(self, "config", value)
 
     @_builtins.property
     @pulumi.getter
@@ -104,6 +117,7 @@ class SSHDeployer(pulumi.CustomResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 config: Optional[pulumi.Input[Union['ConfigArgs', 'ConfigArgsDict']]] = None,
                  connection: Optional[pulumi.Input[Union['_ssh.ConnectionArgs', '_ssh.ConnectionArgsDict']]] = None,
                  create: Optional[pulumi.Input[Union['CommandDefinitionArgs', 'CommandDefinitionArgsDict']]] = None,
                  delete: Optional[pulumi.Input[Union['CommandDefinitionArgs', 'CommandDefinitionArgsDict']]] = None,
@@ -139,6 +153,7 @@ class SSHDeployer(pulumi.CustomResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 config: Optional[pulumi.Input[Union['ConfigArgs', 'ConfigArgsDict']]] = None,
                  connection: Optional[pulumi.Input[Union['_ssh.ConnectionArgs', '_ssh.ConnectionArgsDict']]] = None,
                  create: Optional[pulumi.Input[Union['CommandDefinitionArgs', 'CommandDefinitionArgsDict']]] = None,
                  delete: Optional[pulumi.Input[Union['CommandDefinitionArgs', 'CommandDefinitionArgsDict']]] = None,
@@ -154,6 +169,7 @@ class SSHDeployer(pulumi.CustomResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = SSHDeployerArgs.__new__(SSHDeployerArgs)
 
+            __props__.__dict__["config"] = config
             if connection is None and not opts.urn:
                 raise TypeError("Missing required property 'connection'")
             __props__.__dict__["connection"] = connection
@@ -184,6 +200,7 @@ class SSHDeployer(pulumi.CustomResource):
 
         __props__ = SSHDeployerArgs.__new__(SSHDeployerArgs)
 
+        __props__.__dict__["config"] = None
         __props__.__dict__["connection"] = None
         __props__.__dict__["create"] = None
         __props__.__dict__["delete"] = None
@@ -191,6 +208,11 @@ class SSHDeployer(pulumi.CustomResource):
         __props__.__dict__["payload"] = None
         __props__.__dict__["update"] = None
         return SSHDeployer(resource_name, opts=opts, __props__=__props__)
+
+    @_builtins.property
+    @pulumi.getter
+    def config(self) -> pulumi.Output[Optional['outputs.Config']]:
+        return pulumi.get(self, "config")
 
     @_builtins.property
     @pulumi.getter

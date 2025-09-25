@@ -7,11 +7,33 @@ import * as outputs from "../types/output";
 
 import * as utilities from "../utilities";
 
+export namespace deb {
+    export interface Package {
+        name: string;
+        path?: string;
+        targetRelease?: string;
+        version?: string;
+    }
+
+    export interface PackageConfig {
+        additional?: string[];
+        override?: outputs.deb.Package[];
+        overrideDir?: string;
+    }
+
+}
+
 export namespace runner {
     export interface CommandDefinition {
         command: string;
         environment?: {[key: string]: string};
         payload?: outputs.runner.FileAsset[];
+    }
+
+    export interface Config {
+        aptLockTimeout?: number;
+        keepPayload?: boolean;
+        packageConfig?: outputs.deb.PackageConfig;
     }
 
     export interface FileAsset {

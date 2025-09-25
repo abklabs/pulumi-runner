@@ -33,6 +33,7 @@ export class SSHDeployer extends pulumi.CustomResource {
         return obj['__pulumiType'] === SSHDeployer.__pulumiType;
     }
 
+    declare public readonly config: pulumi.Output<outputs.runner.Config | undefined>;
     declare public readonly connection: pulumi.Output<outputs.ssh.Connection>;
     declare public readonly create: pulumi.Output<outputs.runner.CommandDefinition | undefined>;
     declare public readonly delete: pulumi.Output<outputs.runner.CommandDefinition | undefined>;
@@ -54,6 +55,7 @@ export class SSHDeployer extends pulumi.CustomResource {
             if (args?.connection === undefined && !opts.urn) {
                 throw new Error("Missing required property 'connection'");
             }
+            resourceInputs["config"] = args?.config;
             resourceInputs["connection"] = args ? (args.connection ? pulumi.output(args.connection).apply(inputs.ssh.connectionArgsProvideDefaults) : undefined) : undefined;
             resourceInputs["create"] = args?.create;
             resourceInputs["delete"] = args?.delete;
@@ -61,6 +63,7 @@ export class SSHDeployer extends pulumi.CustomResource {
             resourceInputs["payload"] = args?.payload;
             resourceInputs["update"] = args?.update;
         } else {
+            resourceInputs["config"] = undefined /*out*/;
             resourceInputs["connection"] = undefined /*out*/;
             resourceInputs["create"] = undefined /*out*/;
             resourceInputs["delete"] = undefined /*out*/;
@@ -77,6 +80,7 @@ export class SSHDeployer extends pulumi.CustomResource {
  * The set of arguments for constructing a SSHDeployer resource.
  */
 export interface SSHDeployerArgs {
+    config?: pulumi.Input<inputs.runner.ConfigArgs>;
     connection: pulumi.Input<inputs.ssh.ConnectionArgs>;
     create?: pulumi.Input<inputs.runner.CommandDefinitionArgs>;
     delete?: pulumi.Input<inputs.runner.CommandDefinitionArgs>;

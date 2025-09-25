@@ -7,11 +7,32 @@ import * as outputs from "../types/output";
 
 import * as utilities from "../utilities";
 
+export namespace deb {
+    export interface PackageArgs {
+        name: pulumi.Input<string>;
+        path?: pulumi.Input<string>;
+        targetRelease?: pulumi.Input<string>;
+        version?: pulumi.Input<string>;
+    }
+
+    export interface PackageConfigArgs {
+        additional?: pulumi.Input<pulumi.Input<string>[]>;
+        override?: pulumi.Input<pulumi.Input<inputs.deb.PackageArgs>[]>;
+        overrideDir?: pulumi.Input<string>;
+    }
+}
+
 export namespace runner {
     export interface CommandDefinitionArgs {
         command: pulumi.Input<string>;
         environment?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
         payload?: pulumi.Input<pulumi.Input<inputs.runner.FileAssetArgs>[]>;
+    }
+
+    export interface ConfigArgs {
+        aptLockTimeout?: pulumi.Input<number>;
+        keepPayload?: pulumi.Input<boolean>;
+        packageConfig?: pulumi.Input<inputs.deb.PackageConfigArgs>;
     }
 
     export interface FileAssetArgs {

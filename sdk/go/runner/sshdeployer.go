@@ -16,6 +16,7 @@ import (
 type SSHDeployer struct {
 	pulumi.CustomResourceState
 
+	Config      ConfigPtrOutput            `pulumi:"config"`
 	Connection  ssh.ConnectionOutput       `pulumi:"connection"`
 	Create      CommandDefinitionPtrOutput `pulumi:"create"`
 	Delete      CommandDefinitionPtrOutput `pulumi:"delete"`
@@ -68,6 +69,7 @@ func (SSHDeployerState) ElementType() reflect.Type {
 }
 
 type sshdeployerArgs struct {
+	Config      *Config            `pulumi:"config"`
 	Connection  ssh.Connection     `pulumi:"connection"`
 	Create      *CommandDefinition `pulumi:"create"`
 	Delete      *CommandDefinition `pulumi:"delete"`
@@ -78,6 +80,7 @@ type sshdeployerArgs struct {
 
 // The set of arguments for constructing a SSHDeployer resource.
 type SSHDeployerArgs struct {
+	Config      ConfigPtrInput
 	Connection  ssh.ConnectionInput
 	Create      CommandDefinitionPtrInput
 	Delete      CommandDefinitionPtrInput
@@ -121,6 +124,10 @@ func (o SSHDeployerOutput) ToSSHDeployerOutput() SSHDeployerOutput {
 
 func (o SSHDeployerOutput) ToSSHDeployerOutputWithContext(ctx context.Context) SSHDeployerOutput {
 	return o
+}
+
+func (o SSHDeployerOutput) Config() ConfigPtrOutput {
+	return o.ApplyT(func(v *SSHDeployer) ConfigPtrOutput { return v.Config }).(ConfigPtrOutput)
 }
 
 func (o SSHDeployerOutput) Connection() ssh.ConnectionOutput {

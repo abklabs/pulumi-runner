@@ -13,6 +13,9 @@ namespace ABKLabs.Runner.Runner
     [RunnerResourceType("runner:runner:SSHDeployer")]
     public partial class SSHDeployer : global::Pulumi.CustomResource
     {
+        [Output("config")]
+        public Output<Outputs.Config?> Config { get; private set; } = null!;
+
         [Output("connection")]
         public Output<ABKLabs.Runner.Ssh.Outputs.Connection> Connection { get; private set; } = null!;
 
@@ -77,6 +80,9 @@ namespace ABKLabs.Runner.Runner
 
     public sealed class SSHDeployerArgs : global::Pulumi.ResourceArgs
     {
+        [Input("config")]
+        public Input<Inputs.ConfigArgs>? Config { get; set; }
+
         [Input("connection", required: true)]
         public Input<ABKLabs.Runner.Ssh.Inputs.ConnectionArgs> Connection { get; set; } = null!;
 

@@ -13,10 +13,13 @@ if sys.version_info >= (3, 11):
 else:
     from typing_extensions import NotRequired, TypedDict, TypeAlias
 from .. import _utilities
+from .. import deb as _deb
 
 __all__ = [
     'CommandDefinitionArgs',
     'CommandDefinitionArgsDict',
+    'ConfigArgs',
+    'ConfigArgsDict',
     'FileAssetArgs',
     'FileAssetArgsDict',
 ]
@@ -69,6 +72,55 @@ class CommandDefinitionArgs:
     @payload.setter
     def payload(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['FileAssetArgs']]]]):
         pulumi.set(self, "payload", value)
+
+
+if not MYPY:
+    class ConfigArgsDict(TypedDict):
+        apt_lock_timeout: NotRequired[pulumi.Input[_builtins.int]]
+        keep_payload: NotRequired[pulumi.Input[_builtins.bool]]
+        package_config: NotRequired[pulumi.Input['_deb.PackageConfigArgsDict']]
+elif False:
+    ConfigArgsDict: TypeAlias = Mapping[str, Any]
+
+@pulumi.input_type
+class ConfigArgs:
+    def __init__(__self__, *,
+                 apt_lock_timeout: Optional[pulumi.Input[_builtins.int]] = None,
+                 keep_payload: Optional[pulumi.Input[_builtins.bool]] = None,
+                 package_config: Optional[pulumi.Input['_deb.PackageConfigArgs']] = None):
+        if apt_lock_timeout is not None:
+            pulumi.set(__self__, "apt_lock_timeout", apt_lock_timeout)
+        if keep_payload is not None:
+            pulumi.set(__self__, "keep_payload", keep_payload)
+        if package_config is not None:
+            pulumi.set(__self__, "package_config", package_config)
+
+    @_builtins.property
+    @pulumi.getter(name="aptLockTimeout")
+    def apt_lock_timeout(self) -> Optional[pulumi.Input[_builtins.int]]:
+        return pulumi.get(self, "apt_lock_timeout")
+
+    @apt_lock_timeout.setter
+    def apt_lock_timeout(self, value: Optional[pulumi.Input[_builtins.int]]):
+        pulumi.set(self, "apt_lock_timeout", value)
+
+    @_builtins.property
+    @pulumi.getter(name="keepPayload")
+    def keep_payload(self) -> Optional[pulumi.Input[_builtins.bool]]:
+        return pulumi.get(self, "keep_payload")
+
+    @keep_payload.setter
+    def keep_payload(self, value: Optional[pulumi.Input[_builtins.bool]]):
+        pulumi.set(self, "keep_payload", value)
+
+    @_builtins.property
+    @pulumi.getter(name="packageConfig")
+    def package_config(self) -> Optional[pulumi.Input['_deb.PackageConfigArgs']]:
+        return pulumi.get(self, "package_config")
+
+    @package_config.setter
+    def package_config(self, value: Optional[pulumi.Input['_deb.PackageConfigArgs']]):
+        pulumi.set(self, "package_config", value)
 
 
 if not MYPY:

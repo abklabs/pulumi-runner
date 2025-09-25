@@ -14,9 +14,11 @@ else:
     from typing_extensions import NotRequired, TypedDict, TypeAlias
 from .. import _utilities
 from . import outputs
+from .. import deb as _deb
 
 __all__ = [
     'CommandDefinition',
+    'Config',
     'FileAsset',
 ]
 
@@ -46,6 +48,56 @@ class CommandDefinition(dict):
     @pulumi.getter
     def payload(self) -> Optional[Sequence['outputs.FileAsset']]:
         return pulumi.get(self, "payload")
+
+
+@pulumi.output_type
+class Config(dict):
+    @staticmethod
+    def __key_warning(key: str):
+        suggest = None
+        if key == "aptLockTimeout":
+            suggest = "apt_lock_timeout"
+        elif key == "keepPayload":
+            suggest = "keep_payload"
+        elif key == "packageConfig":
+            suggest = "package_config"
+
+        if suggest:
+            pulumi.log.warn(f"Key '{key}' not found in Config. Access the value via the '{suggest}' property getter instead.")
+
+    def __getitem__(self, key: str) -> Any:
+        Config.__key_warning(key)
+        return super().__getitem__(key)
+
+    def get(self, key: str, default = None) -> Any:
+        Config.__key_warning(key)
+        return super().get(key, default)
+
+    def __init__(__self__, *,
+                 apt_lock_timeout: Optional[_builtins.int] = None,
+                 keep_payload: Optional[_builtins.bool] = None,
+                 package_config: Optional['_deb.outputs.PackageConfig'] = None):
+        if apt_lock_timeout is not None:
+            pulumi.set(__self__, "apt_lock_timeout", apt_lock_timeout)
+        if keep_payload is not None:
+            pulumi.set(__self__, "keep_payload", keep_payload)
+        if package_config is not None:
+            pulumi.set(__self__, "package_config", package_config)
+
+    @_builtins.property
+    @pulumi.getter(name="aptLockTimeout")
+    def apt_lock_timeout(self) -> Optional[_builtins.int]:
+        return pulumi.get(self, "apt_lock_timeout")
+
+    @_builtins.property
+    @pulumi.getter(name="keepPayload")
+    def keep_payload(self) -> Optional[_builtins.bool]:
+        return pulumi.get(self, "keep_payload")
+
+    @_builtins.property
+    @pulumi.getter(name="packageConfig")
+    def package_config(self) -> Optional['_deb.outputs.PackageConfig']:
+        return pulumi.get(self, "package_config")
 
 
 @pulumi.output_type

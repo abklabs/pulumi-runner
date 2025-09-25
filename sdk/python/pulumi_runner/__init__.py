@@ -10,11 +10,14 @@ from .provider import *
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
+    import pulumi_runner.deb as __deb
+    deb = __deb
     import pulumi_runner.runner as __runner
     runner = __runner
     import pulumi_runner.ssh as __ssh
     ssh = __ssh
 else:
+    deb = _utilities.lazy_import('pulumi_runner.deb')
     runner = _utilities.lazy_import('pulumi_runner.runner')
     ssh = _utilities.lazy_import('pulumi_runner.ssh')
 
