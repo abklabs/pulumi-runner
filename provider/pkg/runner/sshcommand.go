@@ -18,14 +18,16 @@ type SSHCommand struct {
 	command     string
 	environment map[string]string
 	payload     []FileAsset
+	config      *svmkitRunner.Config
 }
 
 // NewSSHCommand creates a new SSHCommand instance
-func NewSSHCommand(command string, environment map[string]string, payload []FileAsset) *SSHCommand {
+func NewSSHCommand(command string, environment map[string]string, payload []FileAsset, config *svmkitRunner.Config) *SSHCommand {
 	return &SSHCommand{
 		command:     command,
 		environment: environment,
 		payload:     payload,
+		config:      config,
 	}
 }
 
@@ -87,7 +89,9 @@ func (c *SSHCommand) AddToPayload(p *svmkitRunner.Payload) error {
 	return errors.Join(errs...)
 }
 
-// Config returns the command configuration
 func (c *SSHCommand) Config() *svmkitRunner.Config {
-	return &svmkitRunner.Config{}
+	if c.config == nil {
+		return nil
+	}
+	return c.config
 }
