@@ -8,6 +8,7 @@ import (
 
 	"github.com/abklabs/pulumi-runner/pkg/ssh"
 	"github.com/abklabs/pulumi-runner/pkg/utils"
+	svmkitRunner "github.com/abklabs/svmkit/pkg/runner"
 )
 
 type SSHDeployer struct{}
@@ -19,12 +20,13 @@ type CommandDefinition struct {
 }
 
 type SSHDeployerArgs struct {
-	Connection  ssh.Connection     `pulumi:"connection"`
-	Environment map[string]string  `pulumi:"environment,optional"`
-	Payload     []FileAsset        `pulumi:"payload,optional"`
-	Create      *CommandDefinition `pulumi:"create,optional"`
-	Update      *CommandDefinition `pulumi:"update,optional"`
-	Delete      *CommandDefinition `pulumi:"delete,optional"`
+	Connection  ssh.Connection       `pulumi:"connection"`
+	Environment map[string]string    `pulumi:"environment,optional"`
+	Payload     []FileAsset          `pulumi:"payload,optional"`
+	Create      *CommandDefinition   `pulumi:"create,optional"`
+	Update      *CommandDefinition   `pulumi:"update,optional"`
+	Delete      *CommandDefinition   `pulumi:"delete,optional"`
+	Config      *svmkitRunner.Config `pulumi:"config,optional"`
 }
 
 // SSHDeployerState represents the state of an SSHDeployer resource
@@ -51,7 +53,7 @@ func runDeployerCommand(ctx context.Context, def *CommandDefinition, state *SSHD
 	maps.Copy(environment, state.Environment)
 	maps.Copy(environment, def.Environment)
 
-	cmd := NewSSHCommand(def.Command, environment, payload)
+	cmd := NewSSHCommand(def.Command, environment, payload, state.Config)
 
 	if preview {
 		return
