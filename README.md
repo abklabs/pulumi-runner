@@ -16,6 +16,7 @@ The Pulumi Runner provider enables you to execute commands and deploy files to r
 - **SSH Deployer Resource**: Execute commands on remote servers via SSH
 - **File Asset Management**: Upload local files or create files from string content
 - **Lifecycle Operations**: Define different commands for create, update, and delete operations
+- **Runner Configuration**: Control execution behavior with svmkit runner config options
 - **Multi-language Support**: Available for Go, Node.js, Python, and .NET
 - **Preview Mode**: Preview operations before execution
 
@@ -59,6 +60,10 @@ const deployer = new runner.SSHDeployer("my-deployer", {
         host: "example.com",
         user: "ubuntu",
         privateKey: "-----BEGIN PRIVATE KEY-----\n...",
+    },
+    config: {
+        keepPayload: true,        // Keep files on remote server for debugging
+        aptLockTimeout: 300,     // Set apt lock timeout to 300 seconds
     },
     payload: [
         {
@@ -104,6 +109,10 @@ deployer = runner.SSHDeployer("my-deployer",
         host="example.com",
         user="ubuntu",
         private_key="-----BEGIN PRIVATE KEY-----\n...",
+    ),
+    config=runner.ConfigArgs(
+        keep_payload=True,        # Keep files on remote server for debugging
+        apt_lock_timeout=300,    # Set apt lock timeout to 300 seconds
     ),
     payload=[
         runner.FileAssetArgs(
@@ -161,6 +170,11 @@ The main resource for executing commands on remote servers via SSH.
 - **environment** (optional): Global environment variables for all operations
   - Key-value pairs of environment variables
 
+- **config** (optional): Runner configuration options
+  - `keepPayload`: Whether to keep uploaded files on remote server (default: false)
+  - `aptLockTimeout`: Timeout for apt lock operations in seconds (default: 300)
+  - `packageConfig`: Configuration for deb package management
+
 - **create** (optional): CommandDefinition for resource creation
 - **update** (optional): CommandDefinition for resource updates  
 - **delete** (optional): CommandDefinition for resource deletion
@@ -178,6 +192,72 @@ environment variables, allowing you to reference them in your scripts
 
 **Note**: Global `payload` and `environment` settings are merged with
 operation-specific settings, with operation-specific values taking precedence.
+
+## Configuration
+
+The `config` field allows you to control the behavior of the runner execution. All configuration options are optional and will use sensible defaults if not specified.
+
+### keepPayload
+
+Controls whether uploaded files are cleaned up after command execution.
+
+```typescript
+// Keep files on remote server for debugging
+const deployer = new runner.SSHDeployer("debug-deployer", {
+    connection: { host: "example.com", user: "ubuntu", privateKey: "..." },
+    config: {
+        keepPayload: true,  // Files will remain in /tmp/runner-* directory
+    },
+    create: {
+        command: "./deploy.sh"
+    }
+});
+
+// Clean up files after execution (default behavior)
+const deployer = new runner.SSHDeployer("clean-deployer", {
+    connection: { host: "example.com", user: "ubuntu", privateKey: "..." },
+    config: {
+        keepPayload: false,  // Files will be cleaned up
+    },
+    create: {
+        command: "./deploy.sh"
+    }
+});
+```
+
+### aptLockTimeout
+
+Sets the timeout for apt package lock operations (useful for package management commands).
+
+```typescript
+const deployer = new runner.SSHDeployer("package-deployer", {
+    connection: { host: "example.com", user: "ubuntu", privateKey: "..." },
+    config: {
+        aptLockTimeout: 600,  // 10 minutes timeout for apt operations
+    },
+    create: {
+        command: "apt update && apt install -y nginx"
+    }
+});
+```
+
+### Conditional Configuration
+
+You can use Pulumi's conditional logic to set different configurations based on environment:
+
+```typescript
+const isDevelopment = pulumi.getStack() === "dev";
+
+const deployer = new runner.SSHDeployer("env-aware-deployer", {
+    connection: { host: "example.com", user: "ubuntu", privateKey: "..." },
+    config: {
+        keepPayload: isDevelopment,  // Keep files in dev, clean up in prod
+    },
+    create: {
+        command: "./deploy.sh"
+    }
+});
+```
 
 ## Functions
 
@@ -262,6 +342,9 @@ File assets can be created in two ways:
 3. **Error handling**: Include proper error handling in your deployment scripts
 4. **File permissions**: Set appropriate file permissions for uploaded files
 5. **SSH keys**: Use SSH key authentication instead of passwords for security
+6. **Configuration management**: Use `keepPayload: true` in development for debugging, `false` in production
+7. **Timeout settings**: Set appropriate `aptLockTimeout` for package management operations
+8. **Environment-specific configs**: Use conditional logic to set different configurations per environment
 
 ## Development
 
