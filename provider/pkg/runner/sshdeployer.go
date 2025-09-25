@@ -82,7 +82,7 @@ func (SSHDeployer) Create(ctx context.Context, name string, input SSHDeployerArg
 	return name, state, nil
 }
 
-func (SSHDeployer) Update(ctx context.Context, name string, oldInput SSHDeployerArgs, newInput SSHDeployerArgs, preview bool) (string, SSHDeployerState, error) {
+func (SSHDeployer) Update(ctx context.Context, name string, state SSHDeployerState, newInput SSHDeployerArgs, preview bool) (SSHDeployerState, error) {
 	var def *CommandDefinition
 	if newInput.Update != nil {
 		def = newInput.Update
@@ -90,16 +90,16 @@ func (SSHDeployer) Update(ctx context.Context, name string, oldInput SSHDeployer
 		def = newInput.Create
 	}
 
-	state := SSHDeployerState{
+	state = SSHDeployerState{
 		SSHDeployerArgs: newInput,
 	}
 
 	err := runDeployerCommand(ctx, def, &state, preview)
 	if err != nil {
-		return "", SSHDeployerState{SSHDeployerArgs: oldInput}, err
+		return SSHDeployerState{}, err
 	}
 
-	return name, state, nil
+	return state, nil
 }
 
 func (SSHDeployer) Delete(ctx context.Context, name string, state SSHDeployerState) error {
