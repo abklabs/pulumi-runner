@@ -1,8 +1,12 @@
 package runner
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
+	"io"
+	"os"
 	"strings"
 )
 
@@ -19,6 +23,33 @@ type FileAsset struct {
 
 	// File permissions mode (e.g., 0o0755)
 	Mode *int `pulumi:"mode,optional"`
+}
+
+// get a SHA256 checksum for a FileAsset
+func (f *FileAsset) GetHash() (string, error) {
+	var reader io.Reader
+
+	if f.LocalPath != nil {
+		fileHandle, err := os.Open(*f.LocalPath)
+		if err != nil {
+			return "", err
+		}
+		defer func() {
+			_ = fileHandle.Close()
+		}()
+		reader = fileHandle
+	} else if f.Contents != nil {
+		reader = strings.NewReader(*f.Contents)
+	} else {
+		return "", fmt.Errorf("no content to checksum")
+	}
+
+	h := sha256.New()
+	if _, err := io.Copy(h, reader); err != nil {
+		return "", err
+	}
+
+	return hex.EncodeToString(h.Sum(nil)), nil
 }
 
 // Validate ensures the FileAsset is properly configured
