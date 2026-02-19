@@ -3,8 +3,8 @@ package utils
 import (
 	"context"
 	"fmt"
+	"github.com/abklabs/pulumi-runner/pkg/runner/core"
 	"github.com/abklabs/pulumi-runner/pkg/ssh"
-	"github.com/abklabs/svmkit/pkg/runner"
 	p "github.com/pulumi/pulumi-go-provider"
 	"time"
 )

@@ -69,6 +69,8 @@ func Provider() p.Provider {
 			infer.Function[runner.LocalFile](),
 			infer.Function[runner.StringFile](),
 		},
-		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{},
+		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
+			"core": "runner",
+		},
 	})
 }

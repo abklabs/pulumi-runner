@@ -6,9 +6,9 @@ import (
 	"maps"
 	"os"
 
+	svmkitRunner "github.com/abklabs/pulumi-runner/pkg/runner/core"
 	"github.com/abklabs/pulumi-runner/pkg/ssh"
 	"github.com/abklabs/pulumi-runner/pkg/utils"
-	svmkitRunner "github.com/abklabs/svmkit/pkg/runner"
 )
 
 type SSHDeployer struct{}
