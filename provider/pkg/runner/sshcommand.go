@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	svmkitRunner "github.com/abklabs/svmkit/pkg/runner"
+	svmkitRunner "github.com/abklabs/pulumi-runner/pkg/runner/core"
 )
 
 // SSHCommand encapsulates a shell command and its execution context for remote

@@ -1,0 +1,19 @@
+package runner
+
+import (
+	"github.com/abklabs/pulumi-runner/pkg/runner/core/deb"
+)
+
+type Config struct {
+	PackageConfig  *deb.PackageConfig `pulumi:"packageConfig,optional"`
+	AptLockTimeout *int               `pulumi:"aptLockTimeout,optional"`
+	KeepPayload    *bool              `pulumi:"keepPayload,optional"`
+}
+
+func (c *Config) UpdatePackageGroup(grp *deb.PackageGroup) error {
+	if c.PackageConfig == nil {
+		return nil
+	}
+
+	return c.PackageConfig.UpdatePackageGroup(grp)
+}
