@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"io"
@@ -68,4 +70,43 @@ func (f *FileAsset) Validate() error {
 // IsEmptyStr checks if a string pointer is nil or contains only whitespace
 func IsEmptyStr(s *string) bool {
 	return s == nil || strings.TrimSpace(*s) == ""
+}
+
+// GetHash computes the SHA-256 hash of the file asset's content.
+func (f *FileAsset) GetHash() (string, error) {
+	rc, err := f.openContent()
+	if err != nil {
+		return "", err
+	}
+	defer func() { _ = rc.Close() }()
+
+	h := sha256.New()
+	if _, err := io.Copy(h, rc); err != nil {
+		return "", fmt.Errorf("reading content: %w", err)
+	}
+	return hex.EncodeToString(h.Sum(nil)), nil
+}
+
+// ComputePayloadHashes computes SHA-256 hashes for all file assets across
+// multiple payload slices, returning a map from filename to hash.
+func ComputePayloadHashes(payloads ...[]FileAsset) (map[string]string, error) {
+	hashes := make(map[string]string)
+
+	for _, payload := range payloads {
+		for i := range payload {
+			asset := &payload[i]
+			if asset.Filename == nil {
+				continue
+			}
+
+			hash, err := asset.GetHash()
+			if err != nil {
+				return nil, err
+			}
+
+			hashes[*asset.Filename] = hash
+		}
+	}
+
+	return hashes, nil
 }
