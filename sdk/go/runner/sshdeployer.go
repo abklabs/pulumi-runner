@@ -16,13 +16,14 @@ import (
 type SSHDeployer struct {
 	pulumi.CustomResourceState
 
-	Config      ConfigPtrOutput            `pulumi:"config"`
-	Connection  ssh.ConnectionOutput       `pulumi:"connection"`
-	Create      CommandDefinitionPtrOutput `pulumi:"create"`
-	Delete      CommandDefinitionPtrOutput `pulumi:"delete"`
-	Environment pulumi.StringMapOutput     `pulumi:"environment"`
-	Payload     FileAssetArrayOutput       `pulumi:"payload"`
-	Update      CommandDefinitionPtrOutput `pulumi:"update"`
+	Config        ConfigPtrOutput            `pulumi:"config"`
+	Connection    ssh.ConnectionOutput       `pulumi:"connection"`
+	Create        CommandDefinitionPtrOutput `pulumi:"create"`
+	Delete        CommandDefinitionPtrOutput `pulumi:"delete"`
+	Environment   pulumi.StringMapOutput     `pulumi:"environment"`
+	Payload       FileAssetArrayOutput       `pulumi:"payload"`
+	PayloadHashes pulumi.StringMapOutput     `pulumi:"payloadHashes"`
+	Update        CommandDefinitionPtrOutput `pulumi:"update"`
 }
 
 // NewSSHDeployer registers a new resource with the given unique name, arguments, and options.
@@ -148,6 +149,10 @@ func (o SSHDeployerOutput) Environment() pulumi.StringMapOutput {
 
 func (o SSHDeployerOutput) Payload() FileAssetArrayOutput {
 	return o.ApplyT(func(v *SSHDeployer) FileAssetArrayOutput { return v.Payload }).(FileAssetArrayOutput)
+}
+
+func (o SSHDeployerOutput) PayloadHashes() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *SSHDeployer) pulumi.StringMapOutput { return v.PayloadHashes }).(pulumi.StringMapOutput)
 }
 
 func (o SSHDeployerOutput) Update() CommandDefinitionPtrOutput {

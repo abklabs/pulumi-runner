@@ -39,6 +39,7 @@ export class SSHDeployer extends pulumi.CustomResource {
     declare public readonly delete: pulumi.Output<outputs.runner.CommandDefinition | undefined>;
     declare public readonly environment: pulumi.Output<{[key: string]: string} | undefined>;
     declare public readonly payload: pulumi.Output<outputs.runner.FileAsset[] | undefined>;
+    declare public /*out*/ readonly payloadHashes: pulumi.Output<{[key: string]: string} | undefined>;
     declare public readonly update: pulumi.Output<outputs.runner.CommandDefinition | undefined>;
 
     /**
@@ -62,6 +63,7 @@ export class SSHDeployer extends pulumi.CustomResource {
             resourceInputs["environment"] = args?.environment;
             resourceInputs["payload"] = args?.payload;
             resourceInputs["update"] = args?.update;
+            resourceInputs["payloadHashes"] = undefined /*out*/;
         } else {
             resourceInputs["config"] = undefined /*out*/;
             resourceInputs["connection"] = undefined /*out*/;
@@ -69,6 +71,7 @@ export class SSHDeployer extends pulumi.CustomResource {
             resourceInputs["delete"] = undefined /*out*/;
             resourceInputs["environment"] = undefined /*out*/;
             resourceInputs["payload"] = undefined /*out*/;
+            resourceInputs["payloadHashes"] = undefined /*out*/;
             resourceInputs["update"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);

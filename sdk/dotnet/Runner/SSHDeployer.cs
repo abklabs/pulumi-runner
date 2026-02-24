@@ -31,6 +31,9 @@ namespace ABKLabs.Runner.Runner
         [Output("payload")]
         public Output<ImmutableArray<Outputs.FileAsset>> Payload { get; private set; } = null!;
 
+        [Output("payloadHashes")]
+        public Output<ImmutableDictionary<string, string>?> PayloadHashes { get; private set; } = null!;
+
         [Output("update")]
         public Output<Outputs.CommandDefinition?> Update { get; private set; } = null!;
 

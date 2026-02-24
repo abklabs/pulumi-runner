@@ -178,6 +178,7 @@ class SSHDeployer(pulumi.CustomResource):
             __props__.__dict__["environment"] = environment
             __props__.__dict__["payload"] = payload
             __props__.__dict__["update"] = update
+            __props__.__dict__["payload_hashes"] = None
         super(SSHDeployer, __self__).__init__(
             'runner:runner:SSHDeployer',
             resource_name,
@@ -206,6 +207,7 @@ class SSHDeployer(pulumi.CustomResource):
         __props__.__dict__["delete"] = None
         __props__.__dict__["environment"] = None
         __props__.__dict__["payload"] = None
+        __props__.__dict__["payload_hashes"] = None
         __props__.__dict__["update"] = None
         return SSHDeployer(resource_name, opts=opts, __props__=__props__)
 
@@ -238,6 +240,11 @@ class SSHDeployer(pulumi.CustomResource):
     @pulumi.getter
     def payload(self) -> pulumi.Output[Optional[Sequence['outputs.FileAsset']]]:
         return pulumi.get(self, "payload")
+
+    @_builtins.property
+    @pulumi.getter(name="payloadHashes")
+    def payload_hashes(self) -> pulumi.Output[Optional[Mapping[str, _builtins.str]]]:
+        return pulumi.get(self, "payload_hashes")
 
     @_builtins.property
     @pulumi.getter
