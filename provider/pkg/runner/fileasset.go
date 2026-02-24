@@ -3,6 +3,8 @@ package runner
 import (
 	"errors"
 	"fmt"
+	"io"
+	"os"
 	"strings"
 )
 
@@ -21,20 +23,36 @@ type FileAsset struct {
 	Mode *int `pulumi:"mode,optional"`
 }
 
-// Validate ensures the FileAsset is properly configured
-func (f *FileAsset) Validate() error {
-	// Either LocalPath or Contents, but not both
-	var errs []error
-
+// openContent returns a reader for the asset's content. This is the
+// single decision point for which content source a FileAsset uses.
+func (f *FileAsset) openContent() (io.ReadCloser, error) {
 	hasLocalPath := !IsEmptyStr(f.LocalPath)
 	hasContents := f.Contents != nil
 
-	if !hasLocalPath && !hasContents {
-		errs = append(errs, fmt.Errorf("exactly one of LocalPath or Contents must be set"))
+	switch {
+	case hasLocalPath && hasContents:
+		return nil, fmt.Errorf("cannot set both LocalPath and Contents")
+	case hasLocalPath:
+		file, err := os.Open(*f.LocalPath)
+		if err != nil {
+			return nil, fmt.Errorf("opening %s: %w", *f.LocalPath, err)
+		}
+		return file, nil
+	case hasContents:
+		return io.NopCloser(strings.NewReader(*f.Contents)), nil
+	default:
+		return nil, fmt.Errorf("exactly one of LocalPath or Contents must be set")
 	}
+}
 
-	if hasLocalPath && hasContents {
-		errs = append(errs, fmt.Errorf("cannot set both LocalPath and Contents"))
+// Validate ensures the FileAsset is properly configured
+func (f *FileAsset) Validate() error {
+	var errs []error
+
+	if rc, err := f.openContent(); err != nil {
+		errs = append(errs, err)
+	} else {
+		_ = rc.Close()
 	}
 
 	if IsEmptyStr(f.Filename) {

@@ -3,9 +3,7 @@ package runner
 import (
 	"errors"
 	"fmt"
-	"io"
 	"os"
-	"strings"
 
 	svmkitRunner "github.com/abklabs/svmkit/pkg/runner"
 )
@@ -56,34 +54,20 @@ func (c *SSHCommand) Env() *svmkitRunner.EnvBuilder {
 }
 
 // AddToPayload adds file assets to the payload
-// Asset validation is done in FileAsset.Validate()
 func (c *SSHCommand) AddToPayload(p *svmkitRunner.Payload) error {
 	var errs []error
 	for _, asset := range c.payload {
-		var (
-			content io.Reader
-			err     error
-		)
-		if !IsEmptyStr(asset.LocalPath) {
-			if content, err = os.Open(*asset.LocalPath); err != nil {
-				errs = append(errs,
-					fmt.Errorf("failed to read local file %s: %w",
-						*asset.LocalPath,
-						err))
-				continue
-			}
+		rc, err := asset.openContent()
+		if err != nil {
+			errs = append(errs, err)
+			continue
 		}
 
-		// Maybe we want empty file, so do not use IsEmptyStr()
-		if asset.Contents != nil {
-			content = strings.NewReader(*asset.Contents)
-		}
 		p.Add(svmkitRunner.PayloadFile{
 			Path:   *asset.Filename,
-			Reader: content,
+			Reader: rc,
 			Mode:   os.FileMode(*asset.Mode),
 		})
-
 	}
 	p.AddString("steps.sh", c.command)
 	return errors.Join(errs...)
